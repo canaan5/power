@@ -1,15 +1,15 @@
 <?php
 namespace Canaan5\Power;
 
-class Power Implements PowerAuthInterface
+class Power
 {
-	public function checkAuth()
+	public function __construct(\Illuminate\Foundation\Application $app)
 	{
-		return \Auth::check();
+		$this->app = $app;
 	}
 
-	public function authMe(Array $credentials, $remember = false)
+	public function user()
 	{
-		return \Auth::attempt($credentials, $remember);
+		return $this->app->auth->user();
 	}
 }
