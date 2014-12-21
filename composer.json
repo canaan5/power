@@ -1,6 +1,9 @@
 {
     "name": "canaan5/power",
-    "description": "",
+    "description": "Full Administrative Package for laravel",
+    "keywords": ["laravel4", "laravel 4", "laravel", "administrator", "security", "authentication", "auth", "admin"],
+    "tags": ["laravel"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Canaan Kesty",

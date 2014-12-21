@@ -5,12 +5,12 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class MigrationGenerationTest extends PHPUnit_Framework_TestCase
 {
-	public function testOutput()
-	{
-		$tester = new CommandTester( new PowerGenerator );
+    public function testOutput()
+    {
+        $tester = new CommandTester(new PowerGenerator);
 
-		$tester->execute(['name' => 'foo']);
+        $tester->execute(['name' => 'foo']);
 
-		$this->assertEquals("The argument is foo", $tester->getDisplay());
-	}
+        $this->assertEquals("The argument is foo", $tester->getDisplay());
+    }
 }

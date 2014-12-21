@@ -4,6 +4,7 @@ use Canaan5\Power\PowerGenerator;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Filesystem\Filesystem;
 
 class MigrationGeneratorCommand extends Command {
 
@@ -65,39 +66,21 @@ class MigrationGeneratorCommand extends Command {
 
 	public function CreatePowerMigration()
 	{
-		$file1 = $this->laravel->path . "/database/migrations/" . date('Y_m_d_His') ."_power_migration_table.php";
-		$file2 = $this->laravel->path . "/database/migrations/" . date('Y_m_d_His') ."_power_soft_delete_table.php";
+		$des1 = $this->laravel->path . "/database/migrations/" . date('Y_m_d_His') ."_power_migration_table.php";
+		$des2 = $this->laravel->path . "/database/migrations/" . date('Y_m_d_His') ."_power_soft_delete_table.php";
 
-		$output1 = $this->laravel->view->make('power::PowerGeneratorView')->with('table', 'roles')->render();
-		$output2 = $this->laravel->view->make('power::PowerGeneratorSoftDelete')->with('table', 'roles')->render();
+		$file1 = __DIR__ . '/../../../migrations/PowerMigrationTable.php';
+		$file2 = __DIR__ . '/../../../migrations/PowerMigrationTable.php';
 
-		if (!file_exists($file1) && $fs = fopen($file1, 'x')) {
-            fwrite($fs, $output1);
-            fclose($fs);
+		$f = new Filesystem;
 
-             if (!file_exists($file2) && $fs = fopen($file2, 'x')) {
-	            fwrite($fs, $output2);
-	            fclose($fs);
-	            return true;
-	        }
-        }
-
-
+		if ( $f->copy($file1, $des1) && $f->copy($file2, $des2 ) )
+		{
+			return true;
+		}
 
         return false;
 	}
-
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
-	// protected function getArguments()
-	// {
-	// 	return array(
-	// 		array('name', InputArgument::REQUIRED, 'An example argument.'),
-	// 	);
-	// }
 
 	/**
 	 * Get the console command options.
