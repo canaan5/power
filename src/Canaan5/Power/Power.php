@@ -1,5 +1,5 @@
-<?php
-namespace Canaan5\Power;
+<?php namespace Canaan5\Power;
+use Canaan5\Power\AccessHandlers\AuthHandler;
 
 class Power
 {
@@ -59,6 +59,4 @@ class Power
 		return false;
 
 	}
-
-
 }

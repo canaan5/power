@@ -84,9 +84,10 @@ class PowerUserProvider implements UserProviderInterface
         }
         else
         {
-            // First we will add each credential element to the query as a where clause.
-            // Then we can execute the query and, if we found a user, return it in a
-            // Eloquent User "model" that will be utilized by the Guard instances.
+            // Now i will create a queary and add the provided credential element and a were clause
+            // Then i we run the query
+            // If i find any user i will send it to Eloquent User model.
+
             $query = $this->createModel()->newQuery();
 
             foreach ($credentials as $key => $value) {
@@ -96,7 +97,7 @@ class PowerUserProvider implements UserProviderInterface
             }
         }
 
-        // Failed to find a user?
+        // if no user is found throw an exception
         if ($query->count() == 0) {
             throw new UserNotFoundException('User can not be found');
         }

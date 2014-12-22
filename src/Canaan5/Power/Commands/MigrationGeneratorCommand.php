@@ -70,7 +70,7 @@ class MigrationGeneratorCommand extends Command {
 		$des2 = $this->laravel->path . "/database/migrations/" . date('Y_m_d_His') ."_power_soft_delete_table.php";
 
 		$file1 = __DIR__ . '/../../../migrations/PowerMigrationTable.php';
-		$file2 = __DIR__ . '/../../../migrations/PowerMigrationTable.php';
+		$file2 = __DIR__ . '/../../../migrations/PowerSoftDeleteTable.php';
 
 		$f = new Filesystem;
 
