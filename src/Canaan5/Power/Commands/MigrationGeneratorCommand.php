@@ -72,7 +72,6 @@ class MigrationGeneratorCommand extends Command {
 		$file1 = __DIR__ . '/../../../migrations/PowerMigrationTable.php';
 		$file2 = __DIR__ . '/../../../migrations/PowerSoftDeleteTable.php';
 
-
 		$f = new Filesystem;
 
 		if ( $f->copy($file1, $des1) && $f->copy($file2, $des2 ) )

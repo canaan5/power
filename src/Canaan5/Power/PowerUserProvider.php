@@ -40,14 +40,14 @@ class PowerUserProvider implements UserProviderInterface
     }
 
     /**
-     * Retrieve a user by their unique identifier.
+     * Retrieve a user by their unique id.
      *
-     * @param  mixed  $identifier
+     * @param  mixed  $id
      * @return Illuminate\Auth\UserInterface|null
      */
-    public function retrieveByID($identifier)
+    public function retrieveByID($id)
     {
-        return $this->createModel()->newQuery()->find($identifier);
+        return $this->createModel()->newQuery()->find($id);
     }
 
     /**
@@ -58,20 +58,20 @@ class PowerUserProvider implements UserProviderInterface
      */
     public function retrieveByCredentials(array $credentials)
     {
-        // Are we checking by identifier?
-        if (array_key_exists('identifier', $credentials)) {
+        // Are we checking by id?
+        if (array_key_exists('id', $credentials)) {
             // Grab each val to be identifed against
-            foreach (\Config::get('power::identified_by') as $identified_by) {
+            foreach (\Config::get('power::id') as $id) {
                 // Create a new query for each check
                 $query = $this->createModel()->newQuery();
-                // Start off the query with the first identified_by value
-                $query->where($identified_by, $credentials['identifier']);
+                // Start off the query with the first id value
+                $query->where($id, $credentials['id']);
 
                 // Add any other values to user has passed in
                 foreach ($credentials as $key => $value) {
                     if (
                         !str_contains($key, 'password') &&
-                        !str_contains($key, 'identifier')
+                        !str_contains($key, 'id')
                     ) {
                         $query->where($key, $value);
                     }
@@ -84,6 +84,7 @@ class PowerUserProvider implements UserProviderInterface
         }
         else
         {
+
             // Now i will create a queary and add the provided credential element and a were clause
             // Then i we run the query
             // If i find any user i will send it to Eloquent User model.
@@ -145,30 +146,30 @@ class PowerUserProvider implements UserProviderInterface
      */
     public function createModel()
     {
-        $class = '\\'.ltrim($this->model, '\\');
-        $object = new $class;
+         $class = '\\'.ltrim($this->model, '\\');
+         $object = new $class;
 
-        if ( is_a( $object, '\Illuminate\Support\Facades\Facade' ) )
-        {
-            $object = $object->getFacadeRoot();
-        }
+         if ( is_a( $object, '\Illuminate\Support\Facades\Facade' ) )
+         {
+             $object = $object->getFacadeRoot();
+         }
 
-        return $object;
+         return $object;
     }
 
     /**
-     * Retrieve a user by by their unique identifier and "remember me" token.
+     * Retrieve a user by by their unique id and "remember me" token.
      *
-     * @param  mixed  $identifier
+     * @param  mixed  $id
      * @param  string  $token
      * @return \Illuminate\Auth\UserInterface|null
      */
-    public function retrieveByToken($identifier, $token)
+    public function retrieveByToken($id, $token)
     {
         $model = $this->createModel();
 
         return $model->newQuery()
-                        ->where($model->getKeyName(), $identifier)
+                        ->where($model->getKeyName(), $id)
                         ->where($model->getRememberTokenName(), $token)
                         ->first();
     }

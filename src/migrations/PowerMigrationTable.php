@@ -49,10 +49,10 @@ class PowerMigrationTable extends Migration
             $table->increments('id');
             $table->string('firstName');
             $table->string('lastName');
+            $table->string('email', 255)->index()->unique();
             $table->string('username', 30)->index()->unique();
             $table->string('password', 60)->index();
             $table->string('salt', 32);
-            $table->string('email', 255)->index()->unique();
             $table->string('remember_token', 100)->nullable()->index();
             $table->boolean('verified')->default(0);
             $table->boolean('disabled')->default(0);

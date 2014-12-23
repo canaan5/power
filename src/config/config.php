@@ -2,7 +2,7 @@
 
 return [
 
-    'identified_by' => ['username', 'email'],
+    'id' => ['username', 'email'],
 
     // The Super Admin role
     // (returns true for all permissions)

@@ -1,4 +1,5 @@
-<?php namespace Canaan5\Power;
+<?php
+namespace Canaan5\Power;
 
 use Illuminate\Support\ServiceProvider;
 use Canaan5\Power\Commands\MigrationGeneratorCommand;
@@ -24,18 +25,16 @@ class PowerServiceProvider extends ServiceProvider {
 	{
 		$this->package('canaan5/power');
 
-		\Auth::extend('power', function() {
+		\Auth::extend('power', function($app) {
 
 			return new Guard(
 				new PowerUserProvider(
 					new BcryptHasher,
-					\Config::get('auth.model', 'User')
+					\Config::get('auth.model')
 				),
 				\App::make('session.store')
 			);
 		});
-
-		// $this->exceptionMessages();
 	}
 
 	/**
@@ -83,28 +82,6 @@ class PowerServiceProvider extends ServiceProvider {
 		$this->app['power'] = $this->app->share(function($app) {
 
 			return new Power($app);
-		});
-	}
-
-	public function exceptionMessages()
-	{
-		\App::error(function($exception, $code)
-		{
-		    switch ($code)
-		    {
-		        case 403:
-		            return \Response::view('errors.403', array(), 403);
-
-		        case 404:
-		            return \Response::view('errors.404', array(), 404);
-
-		        case 500:
-		        	// return Exception::getMessage();
-		            return \Response::view('power::errors.500', ['message' => ''], 500);
-
-		        default:
-		            return \Response::view('errors.default', array(), $code);
-		    }
 		});
 	}
 

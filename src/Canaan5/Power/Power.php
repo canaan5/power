@@ -1,5 +1,5 @@
 <?php namespace Canaan5\Power;
-use Canaan5\Power\AccessHandlers\AuthHandler;
+
 
 class Power
 {
@@ -15,6 +15,60 @@ class Power
 	public function user()
 	{
 		return $this->app->auth->user();
+	}
+
+	/**
+	 * Delete a user
+	 * @param  int $id user id
+	 * @return bool    return true if user deletion is successfull.
+	 */
+	public function delete($id)
+	{
+		$user = $this->model($id);
+		return $user->delete();
+	}
+
+	/**
+	 * Verify a user
+	 * @param  [type] $id user id
+	 * @return true     return true of verifying.
+	 */
+	public function verify($id)
+	{
+		$user = $this->model($id);
+
+		if ( ! is_null($user) )
+			return $user->update(['verified' => 1]);
+
+		throw new Canaan5\Power\Exceptions\ErrorVerifyingUserException("There is an error verifying this user");
+	}
+
+	/**
+	 * Login user into the application
+	 * @var array credentials
+	 */
+	public function login($remember = false)
+	{
+		$credentials =
+		[
+			'id' => \Input::get('email') ? \Input::get('email') : \Input::get('username'),
+			'password' => \Input::get('password')
+		];
+
+		try {
+
+			if ( $remember == false )
+			{
+				\Auth::attempt($credentials);
+			} else {
+
+				\Auth::attempt($credentials, true);
+			}
+
+		} catch (\Exception $e) {
+
+			return \Redirect::back()->with('authError', $e->getMessage());
+		}
 	}
 
 	/**
@@ -58,5 +112,18 @@ class Power
 
 		return false;
 
+	}
+
+	/**
+	 * get the User Model
+	 * @param $id
+	 * @return mixed
+	 */
+	public function model($id)
+	{
+		$model = ucfirst(\Config::get('auth.model', \Config::get('power::models.user')));
+		$user = $model::find($id);
+
+		return $user;
 	}
 }
