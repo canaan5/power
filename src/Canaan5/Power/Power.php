@@ -1,6 +1,9 @@
 <?php namespace Canaan5\Power;
 
-
+/**
+ * @license MIT
+ * @package Canaan5/Power
+ */
 class Power
 {
 	public function __construct(\Illuminate\Foundation\Application $app)
