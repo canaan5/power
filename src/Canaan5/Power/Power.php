@@ -13,8 +13,8 @@ class Power
 
 	/**
 	 * Get the current Logged in user or nothing if no user is Authenticated
+	 * @return array current Logged in user
 	 */
-
 	public function user()
 	{
 		return $this->app->auth->user();

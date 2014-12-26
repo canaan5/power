@@ -118,17 +118,17 @@ class PowerUserProvider implements UserProviderInterface
         $plain = $credentials['password'];
         // Is user password is valid?
         if(!$this->hasher->check($user->salt.$plain, $user->getAuthPassword())) {
-            throw new UserPasswordIncorrectException('User password is incorrect');
+            throw new UserPasswordIncorrectException('The password you entered is incorrect');
         }
 
         // Valid user, but are they verified?
         if (!$user->verified) {
-            throw new UserUnverifiedException('User is not verified');
+            throw new UserUnverifiedException('Your account is not verified');
         }
 
         // Is the user disabled?
         if ($user->disabled) {
-            throw new UserDisabledException('User is disabled');
+            throw new UserDisabledException('Your account is disabled');
         }
 
         // Is the user deleted?
