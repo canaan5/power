@@ -2,6 +2,8 @@
 
 return [
 
+    'admin_uri' => 'admin',
+
     'id' => ['username', 'email'],
 
     // The Super Admin role

@@ -62,10 +62,13 @@ class Power
 
 			if ( $remember == false )
 			{
-				\Auth::attempt($credentials);
+				if ( \Auth::attempt($credentials) )
+					return \Redirect::to(\Config::get('app.url').'/'.\Config::get('power::admin_url'));
+
 			} else {
 
-				\Auth::attempt($credentials, true);
+				if ( \Auth::attempt($credentials, true) )
+					return \Redirect::to(\Config::get('app.url').'/'.\Config::get('power::admin_url'));
 			}
 
 		} catch (\Exception $e) {

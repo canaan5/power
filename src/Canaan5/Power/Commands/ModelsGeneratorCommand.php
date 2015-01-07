@@ -50,16 +50,13 @@ class ModelsGeneratorCommand extends Command {
 		$this->line('');
 
             $this->info( "Creating Power Models..." );
-            if ( $this->CreatePowerModels() ) {
+	            if ( $this->CreatePowerModels() ) {
 
-                $this->info( "Models successfully created!" );
+	                $this->info( "Models successfully created!" );
 
-            } else {
-                $this->error(
-                    "Coudn't create Models.\n Check the write permissions".
-                    " within the app/models directory."
-                );
-            }
+	            } else {
+	                return $this->error("Model generation process aborted");
+	            }
         }
 	}
 
@@ -77,9 +74,19 @@ class ModelsGeneratorCommand extends Command {
 
 		$f = new Filesystem;
 
-		if ( $f->copyDirectory($dir, $dest) )
+		if ( $f->exists($dest))
 		{
-			return true;
+			$this->line('');
+			if ( $this->confirm("Files Exists, Do you want to overwrite? "))
+			{
+				if ( $f->copyDirectory($dir, $dest) )
+				{
+					return true;
+				}
+			} else {
+				$this->info('Model generation process aborted, please backup your models and try again');
+				return false;
+			}
 		}
 
 		return false;
