@@ -62,10 +62,13 @@ class Power
 
 			if ( $remember == false )
 			{
-				\Auth::attempt($credentials);
+				if ( \Auth::attempt($credentials) )
+					return \Redirect::to(\Config::get('app.url').'/'.\Config::get('power::admin_url'));
+
 			} else {
 
-				\Auth::attempt($credentials, true);
+				if ( \Auth::attempt($credentials, true) )
+					return \Redirect::to(\Config::get('app.url').'/'.\Config::get('power::admin_url'));
 			}
 
 		} catch (\Exception $e) {
@@ -77,11 +80,11 @@ class Power
 	/**
 	 * Check if the current logged in or a giving user is super_admin
 	 */
-	public function oga4Top($userId = null)
+	public function superAdmin($userId = null)
 	{
 		if ( ! is_null($userId))
 		{
-			if ( $this->group($userId) == 'Oga4Top')
+			if ( $this->group($userId) == \Config::get('power::super_admin'))
 			{
 				return true;
 			}
@@ -89,7 +92,7 @@ class Power
 			return false;
 		}
 
-		if ( $this->group($this->user()->id) == 'Oga4Top')
+		if ( $this->group($this->user()->id) == Config::get('power::super_admin'))
 		{
 			return true;
 		}

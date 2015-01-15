@@ -21,8 +21,8 @@ class PowerMigrationTable extends Migration
         // Bring to local scope
         $prefix = $this->prefix;
 
-        // Create the permissions table
-        Schema::create($prefix . 'permissions', function ($table) {
+        // Create the privilege table
+        Schema::create($prefix . 'privileges', function ($table) {
             $table->engine = 'InnoDB';
 
             $table->increments('id');
@@ -52,6 +52,7 @@ class PowerMigrationTable extends Migration
             $table->string('email', 255)->index()->unique();
             $table->string('username', 30)->index()->unique();
             $table->string('password', 60)->index();
+            $table->boolean('active')->default(0);
             $table->string('salt', 32);
             $table->string('remember_token', 100)->nullable()->index();
             $table->boolean('verified')->default(0);
@@ -73,14 +74,14 @@ class PowerMigrationTable extends Migration
         });
 
         // Create the permission/Group relationship table
-        Schema::create($prefix . 'permissionGroup', function ($table) use ($prefix) {
+        Schema::create($prefix . 'privilegeGroup', function ($table) use ($prefix) {
             $table->engine = 'InnoDB';
 
-            $table->integer('permissionId')->unsigned()->index();
+            $table->integer('privilegeId')->unsigned()->index();
             $table->integer('groupId')->unsigned()->index();
             $table->timestamps();
 
-            $table->foreign('permissionId')->references('id')->on($prefix . 'permissions')->onDelete('cascade');
+            $table->foreign('privilegeId')->references('id')->on($prefix . 'privileges')->onDelete('cascade');
             $table->foreign('groupId')->references('id')->on($prefix . 'groups')->onDelete('cascade');
         });
     }
@@ -93,9 +94,9 @@ class PowerMigrationTable extends Migration
     public function down()
     {
         Schema::drop($this->prefix . 'groupUser');
-        Schema::drop($this->prefix . 'permissionGroup');
+        Schema::drop($this->prefix . 'privilegeGroup');
         Schema::drop($this->prefix . 'users');
         Schema::drop($this->prefix . 'groups');
-        Schema::drop($this->prefix . 'permissions');
+        Schema::drop($this->prefix . 'privileges');
     }
 }

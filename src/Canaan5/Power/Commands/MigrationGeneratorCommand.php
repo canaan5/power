@@ -68,13 +68,15 @@ class MigrationGeneratorCommand extends Command {
 	{
 		$des1 = $this->laravel->path . "/database/migrations/" . date('Y_m_d_His') ."_power_migration_table.php";
 		$des2 = $this->laravel->path . "/database/migrations/" . date('Y_m_d_His') ."_power_soft_delete_table.php";
+		$des3 = $this->laravel->path . "/database/seeds/PowerTableSeeder.php";
 
 		$file1 = __DIR__ . '/../../../migrations/PowerMigrationTable.php';
 		$file2 = __DIR__ . '/../../../migrations/PowerSoftDeleteTable.php';
+		$file3 = __DIR__ . '/../../../seeds/PowerTableSeeder.php';
 
 		$f = new Filesystem;
 
-		if ( $f->copy($file1, $des1) && $f->copy($file2, $des2 ) )
+		if ( $f->copy($file1, $des1) && $f->copy($file2, $des2 ) && $f->copy($file3, $des3))
 		{
 			return true;
 		}

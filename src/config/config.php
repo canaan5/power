@@ -2,11 +2,13 @@
 
 return [
 
+    'admin_uri' => 'admin',
+
     'id' => ['username', 'email'],
 
     // The Super Admin role
     // (returns true for all permissions)
-    'super_admin' => 'Oga4Top',
+    'super_admin' => 'super_admin',
 
     // DB prefix for tables
     'prefix' => '',
@@ -15,7 +17,7 @@ return [
     'models' => [
         'user' => 'User',
         'group' => 'Group',
-        'permission' => 'Permission',
+        'privilege' => 'Privilege',
     ]
 
 ];
